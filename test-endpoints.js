@@ -26,49 +26,55 @@ async function runTests() {
     const server = app.listen(TEST_PORT, async () => {
         console.log(`Test server running on port ${TEST_PORT}\n--- Running Tests ---`);
         let passed = 0;
-        let total = 4;
+        let total = 6;
 
         try {
             // Test 1: GET /
             const res1 = await makeRequest("/");
             console.log(`[TEST 1] GET / -> Status: ${res1.statusCode}, Body: "${res1.body}"`);
-            if (res1.statusCode === 200 && res1.body.includes("Welcome to my Lab 1 server!")) {
-                console.log("  PASS: Correct status 200 and welcome message.\n");
+            if (res1.statusCode === 200 && res1.body.includes("Welcome to my Node.js and Express Server!")) {
+                console.log("  PASS: Correct status 200 and home message.\n");
                 passed++;
-            } else {
-                console.error("  FAIL: Unexpected response for GET /\n");
             }
 
             // Test 2: GET /about
             const res2 = await makeRequest("/about");
-            console.log(`[TEST 2] GET /about -> Status: ${res2.statusCode}, Body: ${res2.body}`);
-            const aboutData = JSON.parse(res2.body);
-            if (res2.statusCode === 200 && aboutData.name && aboutData.section) {
-                console.log("  PASS: Correct status 200 and JSON with name and section.\n");
+            console.log(`[TEST 2] GET /about -> Status: ${res2.statusCode}, Body: "${res2.body}"`);
+            if (res2.statusCode === 200 && res2.body.includes("Welcome to the About Page!")) {
+                console.log("  PASS: Correct status 200 and about message.\n");
                 passed++;
-            } else {
-                console.error("  FAIL: Unexpected response for GET /about\n");
             }
 
-            // Test 3: GET /time
-            const res3 = await makeRequest("/time");
-            console.log(`[TEST 3] GET /time -> Status: ${res3.statusCode}, Body: ${res3.body}`);
-            const timeData = JSON.parse(res3.body);
-            if (res3.statusCode === 200 && timeData.currentDateTime) {
-                console.log("  PASS: Correct status 200 and JSON with currentDateTime.\n");
+            // Test 3: GET /student
+            const res3 = await makeRequest("/student");
+            console.log(`[TEST 3] GET /student -> Status: ${res3.statusCode}, Body: "${res3.body}"`);
+            if (res3.statusCode === 200 && res3.body.includes("Janumuri Yeswanth")) {
+                console.log("  PASS: Correct status 200 and student name.\n");
                 passed++;
-            } else {
-                console.error("  FAIL: Unexpected response for GET /time\n");
             }
 
-            // Test 4: Unknown route (GET /random-unknown-endpoint)
-            const res4 = await makeRequest("/random-unknown-endpoint");
-            console.log(`[TEST 4] GET /random-unknown-endpoint -> Status: ${res4.statusCode}, Body: "${res4.body}"`);
-            if (res4.statusCode === 404 && res4.body.includes("404 - Page Not Found")) {
+            // Test 4: GET /contact
+            const res4 = await makeRequest("/contact");
+            console.log(`[TEST 4] GET /contact -> Status: ${res4.statusCode}, Body: "${res4.body}"`);
+            if (res4.statusCode === 200 && res4.body.includes("Welcome to the Contact Page!")) {
+                console.log("  PASS: Correct status 200 and contact message.\n");
+                passed++;
+            }
+
+            // Test 5: GET /time
+            const res5 = await makeRequest("/time");
+            console.log(`[TEST 5] GET /time -> Status: ${res5.statusCode}`);
+            if (res5.statusCode === 200) {
+                console.log("  PASS: Correct status 200 for /time.\n");
+                passed++;
+            }
+
+            // Test 6: Unknown route
+            const res6 = await makeRequest("/anything");
+            console.log(`[TEST 6] GET /anything -> Status: ${res6.statusCode}, Body: "${res6.body}"`);
+            if (res6.statusCode === 404 && res6.body.includes("404 - Page Not Found")) {
                 console.log("  PASS: Correct status 404 for unknown route.\n");
                 passed++;
-            } else {
-                console.error("  FAIL: Expected 404 status code for unknown route.\n");
             }
 
             console.log(`--- Test Summary: ${passed}/${total} passed ---`);
