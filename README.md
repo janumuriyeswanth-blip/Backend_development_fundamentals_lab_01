@@ -3,8 +3,8 @@
 ## Student Details
 
 - **Name:** Yeswanth
-- **Registration Number:** 252U1R9145
-- **Section:** CSE-GEN-AI 2C 112
+- **Registration Number:** 252U1R9046
+- **Section:** CSE-GEN-AI 2A 
 - **Course:** Backend Development Fundamentals
 - **Lab Number:** 01
 
